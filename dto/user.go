@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// ==============================================================
+
 type RegisterRequest struct {
 	FullName string `json:"full_name" binding:"required"`
 	Email    string `json:"email" binding:"email,required"`
@@ -25,4 +27,13 @@ type RegisterResponse struct {
 	FullName  string    `json:"full_name"`
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+type LoginRequest struct {
+	Email    string `json:"email" binding:"email,required"`
+	Password string `json:"password" binding:"required,min=6"`
+}
+
+type LoginResponse struct {
+	Token string `json:"token" binding:"jwt"`
 }
