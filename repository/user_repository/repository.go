@@ -7,4 +7,5 @@ import (
 
 type UserRepository interface {
 	Register(*entity.User) (*entity.User, errs.MessageErr)
+	GetUserByEmail(email string) (*entity.User, errs.MessageErr)
 }
