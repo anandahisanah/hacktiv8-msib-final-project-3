@@ -2,7 +2,7 @@ package database
 
 import (
 	"hacktiv8-msib-final-project-3/config"
-	// "hacktiv8-msib-final-project-3/entity"
+	"hacktiv8-msib-final-project-3/entity"
 	"log"
 
 	"gorm.io/gorm"
@@ -19,7 +19,7 @@ func init() {
 		log.Fatalln(err.Error())
 	}
 
-	if err = db.AutoMigrate(); err != nil {
+	if err = db.AutoMigrate(&entity.User{}); err != nil {
 		log.Fatalln(err.Error())
 	}
 

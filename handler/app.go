@@ -1,11 +1,8 @@
 package handler
 
 import (
-	// "hacktiv8-msib-final-project-3/database"
-	// "hacktiv8-msib-final-project-3/handler/http_handler"
-	// "hacktiv8-msib-final-project-3/repository/photo_repository/photo_pg"
-	// "hacktiv8-msib-final-project-3/repository/user_repository/user_pg"
-	// "hacktiv8-msib-final-project-3/service"
+	"fmt"
+	"hacktiv8-msib-final-project-3/database"
 	"log"
 	"os"
 
@@ -15,7 +12,9 @@ import (
 var PORT = os.Getenv("PORT")
 
 func StartApp() {
-	// _ := database.GetPostgresInstance()
+	db := database.GetPostgresInstance()
+
+	fmt.Println(db)
 
 	if PORT == "" {
 		PORT = "8080"
