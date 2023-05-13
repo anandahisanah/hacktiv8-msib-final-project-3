@@ -1,4 +1,4 @@
-package user_repository
+package userrepository
 
 import (
 	"hacktiv8-msib-final-project-3/entity"

@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var JWT_SECRET = os.Getenv("JWT_SECRET")
+var jwtSecret = os.Getenv("JWT_SECRET")
 
 type User struct {
 	gorm.Model
@@ -48,7 +48,7 @@ func (u *User) CreateToken() (string, errs.MessageErr) {
 			"exp":    time.Now().Add(1 * time.Hour).Unix(),
 		})
 
-	signedString, err := token.SignedString([]byte(JWT_SECRET))
+	signedString, err := token.SignedString([]byte(jwtSecret))
 	if err != nil {
 		log.Println("Error:", err.Error())
 		return "", errs.NewInternalServerError("Failed to sign jwt token")
@@ -75,11 +75,11 @@ func (u *User) ValidateToken(bearerToken string) errs.MessageErr {
 
 	var mapClaims jwt.MapClaims
 
-	if claims, ok := token.Claims.(jwt.MapClaims); !ok || !token.Valid {
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
 		return errs.NewUnauthenticated("Token is not valid")
-	} else {
-		mapClaims = claims
 	}
+	mapClaims = claims
 
 	return u.bindTokenToUserEntity(mapClaims)
 }
@@ -89,7 +89,7 @@ func (u *User) ParseToken(tokenString string) (*jwt.Token, errs.MessageErr) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errs.NewUnauthenticated("Token method is not valid")
 		}
-		return []byte(JWT_SECRET), nil
+		return []byte(jwtSecret), nil
 	})
 	if err != nil {
 		return nil, errs.NewUnauthenticated("Token is not valid")
@@ -99,11 +99,11 @@ func (u *User) ParseToken(tokenString string) (*jwt.Token, errs.MessageErr) {
 }
 
 func (u *User) bindTokenToUserEntity(claim jwt.MapClaims) errs.MessageErr {
-	if id, ok := claim["userId"].(float64); !ok {
+	id, ok := claim["userId"].(float64)
+	if !ok {
 		return errs.NewUnauthenticated("Token doesn't contains userId")
-	} else {
-		u.ID = uint(id)
 	}
+	u.ID = uint(id)
 
 	return nil
 }

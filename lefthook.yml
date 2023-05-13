@@ -1,8 +1,8 @@
 pre-commit:
   commands:
     lint:
-      run: golangci-lint run --fix
+      run: revive ./...
 pre-push:
   commands:
     lint:
-      run: golangci-lint run
+      run: revive ./...

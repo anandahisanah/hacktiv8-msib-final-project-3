@@ -1,4 +1,4 @@
-package http_handler
+package httphandler
 
 import (
 	"hacktiv8-msib-final-project-3/dto"
@@ -10,17 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type userHandler struct {
+type UserHandler struct {
 	userService service.UserService
 }
 
-func NewUserHandler(userService service.UserService) *userHandler {
-	return &userHandler{userService}
+func NewUserHandler(userService service.UserService) *UserHandler {
+	return &UserHandler{userService}
 }
 
 // ==================================================
 
-func (u *userHandler) Register(ctx *gin.Context) {
+func (u *UserHandler) Register(ctx *gin.Context) {
 	var requestBody dto.RegisterRequest
 
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -38,7 +38,7 @@ func (u *userHandler) Register(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, registeredUser)
 }
 
-func (u *userHandler) Login(ctx *gin.Context) {
+func (u *UserHandler) Login(ctx *gin.Context) {
 	var requestBody dto.LoginRequest
 
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -56,7 +56,7 @@ func (u *userHandler) Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, token)
 }
 
-func (u *userHandler) UpdateUser(ctx *gin.Context) {
+func (u *UserHandler) UpdateUser(ctx *gin.Context) {
 	var requestBody dto.UpdateUserRequest
 	userData, ok := ctx.MustGet("userData").(*entity.User)
 	if !ok {

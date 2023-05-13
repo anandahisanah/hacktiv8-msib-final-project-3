@@ -4,7 +4,7 @@ import (
 	"hacktiv8-msib-final-project-3/dto"
 	"hacktiv8-msib-final-project-3/entity"
 	"hacktiv8-msib-final-project-3/pkg/errs"
-	"hacktiv8-msib-final-project-3/repository/user_repository"
+	"hacktiv8-msib-final-project-3/repository/userrepository"
 )
 
 type UserService interface {
@@ -14,10 +14,10 @@ type UserService interface {
 }
 
 type userService struct {
-	userRepo user_repository.UserRepository
+	userRepo userrepository.UserRepository
 }
 
-func NewUserService(userRepo user_repository.UserRepository) UserService {
+func NewUserService(userRepo userrepository.UserRepository) UserService {
 	return &userService{userRepo}
 }
 
