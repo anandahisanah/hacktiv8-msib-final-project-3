@@ -1,10 +1,10 @@
-package user_pg
+package userpg
 
 import (
 	"fmt"
 	"hacktiv8-msib-final-project-3/entity"
 	"hacktiv8-msib-final-project-3/pkg/errs"
-	"hacktiv8-msib-final-project-3/repository/user_repository"
+	"hacktiv8-msib-final-project-3/repository/userrepository"
 	"log"
 
 	"gorm.io/gorm"
@@ -14,7 +14,7 @@ type userPG struct {
 	db *gorm.DB
 }
 
-func NewUserPG(db *gorm.DB) user_repository.UserRepository {
+func NewUserPG(db *gorm.DB) userrepository.UserRepository {
 	return &userPG{db}
 }
 

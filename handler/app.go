@@ -2,8 +2,8 @@ package handler
 
 import (
 	"hacktiv8-msib-final-project-3/database"
-	"hacktiv8-msib-final-project-3/handler/http_handler"
-	"hacktiv8-msib-final-project-3/repository/user_repository/user_pg"
+	"hacktiv8-msib-final-project-3/handler/httphandler"
+	"hacktiv8-msib-final-project-3/repository/userrepository/userpg"
 	"hacktiv8-msib-final-project-3/service"
 	"log"
 	"os"
@@ -21,9 +21,9 @@ func StartApp() {
 	}
 	r := gin.Default()
 
-	userRepo := user_pg.NewUserPG(db)
+	userRepo := userpg.NewUserPG(db)
 	userService := service.NewUserService(userRepo)
-	userHandler := http_handler.NewUserHandler(userService)
+	userHandler := httphandler.NewUserHandler(userService)
 
 	authService := service.NewAuthService(userRepo)
 

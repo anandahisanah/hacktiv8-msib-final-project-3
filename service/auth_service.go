@@ -2,7 +2,7 @@ package service
 
 import (
 	"hacktiv8-msib-final-project-3/entity"
-	"hacktiv8-msib-final-project-3/repository/user_repository"
+	"hacktiv8-msib-final-project-3/repository/userrepository"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,10 +12,10 @@ type AuthService interface {
 }
 
 type authService struct {
-	userRepo user_repository.UserRepository
+	userRepo userrepository.UserRepository
 }
 
-func NewAuthService(userRepo user_repository.UserRepository) AuthService {
+func NewAuthService(userRepo userrepository.UserRepository) AuthService {
 	return &authService{userRepo}
 }
 
