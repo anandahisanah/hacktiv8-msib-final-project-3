@@ -2,6 +2,7 @@ package service
 
 import (
 	"hacktiv8-msib-final-project-3/dto"
+	"hacktiv8-msib-final-project-3/entity"
 	"hacktiv8-msib-final-project-3/pkg/errs"
 	"hacktiv8-msib-final-project-3/repository/user_repository"
 )
@@ -9,6 +10,7 @@ import (
 type UserService interface {
 	Register(payload *dto.RegisterRequest) (*dto.RegisterResponse, errs.MessageErr)
 	Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs.MessageErr)
+	UpdateUser(user *entity.User, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr)
 }
 
 type userService struct {
@@ -58,6 +60,24 @@ func (u *userService) Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs
 	}
 
 	response := &dto.LoginResponse{Token: token}
+
+	return response, nil
+}
+
+func (u *userService) UpdateUser(user *entity.User, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {
+	newUser := payload.ToEntity()
+
+	updatedUser, err := u.userRepo.UpdateUser(user, newUser)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.UpdateUserResponse{
+		ID:        updatedUser.ID,
+		FullName:  updatedUser.FullName,
+		Email:     updatedUser.Email,
+		UpdatedAt: updatedUser.UpdatedAt,
+	}
 
 	return response, nil
 }
