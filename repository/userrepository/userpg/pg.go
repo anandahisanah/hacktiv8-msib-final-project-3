@@ -56,3 +56,12 @@ func (u *userPG) UpdateUser(oldUser *entity.User, newUser *entity.User) (*entity
 
 	return oldUser, nil
 }
+
+func (u *userPG) DeleteUser(user *entity.User) errs.MessageErr {
+	if err := u.db.Delete(user).Error; err != nil {
+		log.Println(err.Error())
+		return errs.NewInternalServerError(fmt.Sprintf("Failed to delete user with id %d", user.ID))
+	}
+
+	return nil
+}

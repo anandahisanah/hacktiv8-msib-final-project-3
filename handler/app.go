@@ -30,6 +30,7 @@ func StartApp() {
 	r.POST("/users/register", userHandler.Register)
 	r.POST("/users/login", userHandler.Login)
 	r.PUT("/users/update-account", authService.Authentication(), userHandler.UpdateUser)
+	r.DELETE("/users/delete-account", authService.Authentication(), userHandler.DeleteUser)
 
 	log.Fatalln(r.Run(":" + PORT))
 }
