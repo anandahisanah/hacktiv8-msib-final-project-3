@@ -79,3 +79,20 @@ func (u *UserHandler) UpdateUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedUser)
 }
+
+func (u *UserHandler) DeleteUser(ctx *gin.Context) {
+	userData, ok := ctx.MustGet("userData").(*entity.User)
+	if !ok {
+		newError := errs.NewBadRequest("Failed to get user data")
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	response, err := u.userService.DeleteUser(userData)
+	if err != nil {
+		ctx.JSON(err.StatusCode(), err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
