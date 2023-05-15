@@ -2,6 +2,7 @@ package service
 
 import (
 	"hacktiv8-msib-final-project-3/entity"
+	"hacktiv8-msib-final-project-3/pkg/errs"
 	"hacktiv8-msib-final-project-3/repository/userrepository"
 
 	"github.com/gin-gonic/gin"
@@ -9,6 +10,7 @@ import (
 
 type AuthService interface {
 	Authentication() gin.HandlerFunc
+	AdminAuthorization() gin.HandlerFunc
 }
 
 type authService struct {
@@ -37,6 +39,25 @@ func (a *authService) Authentication() gin.HandlerFunc {
 		}
 
 		ctx.Set("userData", result)
+		ctx.Next()
+	}
+}
+
+func (a *authService) AdminAuthorization() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		userData, ok := ctx.MustGet("userData").(*entity.User)
+		if !ok {
+			newError := errs.NewBadRequest("Failed to get user data")
+			ctx.AbortWithStatusJSON(newError.StatusCode(), newError)
+			return
+		}
+
+		if userData.Role != "admin" {
+			newError := errs.NewUnauthorized("You're not authorized to access this endpoint")
+			ctx.AbortWithStatusJSON(newError.StatusCode(), newError)
+			return
+		}
+
 		ctx.Next()
 	}
 }

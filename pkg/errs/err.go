@@ -1,6 +1,9 @@
 package errs
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 type MessageErr interface {
 	Message() string
@@ -71,5 +74,11 @@ func NewUnauthorized(message string) MessageErr {
 		ErrMessage:    message,
 		ErrStatusCode: http.StatusForbidden,
 		ErrError:      "UNAUTHORIZED",
+	}
+}
+
+func CheckErr(err error) {
+	if err != nil {
+		log.Fatalln("Error:", err.Error())
 	}
 }
