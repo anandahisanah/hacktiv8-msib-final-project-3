@@ -4,6 +4,7 @@ import (
 	"errors"
 	"hacktiv8-msib-final-project-3/config"
 	"hacktiv8-msib-final-project-3/entity"
+	"hacktiv8-msib-final-project-3/pkg/errs"
 	"log"
 
 	"gorm.io/gorm"
@@ -21,26 +22,18 @@ func seedAdmin() {
 		Password: "admin123",
 		Role:     "admin",
 	}
-	if err := admin.HashPassword(); err != nil {
-		log.Fatalln("Error:", err.Error())
-	}
+	errs.CheckErr(admin.HashPassword())
 
-	if err := db.Create(admin).Error; err != nil {
-		log.Fatalln("Error:", err.Error())
-	}
+	errs.CheckErr(db.Create(admin).Error)
 
 	log.Println("Admin account seed success!")
 }
 
 func init() {
 	db, err = gorm.Open(config.GetDBConfig())
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
+	errs.CheckErr(err)
 
-	if err = db.AutoMigrate(&entity.User{}); err != nil {
-		log.Fatalln(err.Error())
-	}
+	errs.CheckErr(db.AutoMigrate(&entity.User{}, &entity.Category{}))
 
 	if db.Migrator().HasTable(&entity.User{}) {
 		if err := db.First(&entity.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
