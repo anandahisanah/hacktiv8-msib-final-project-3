@@ -39,6 +39,7 @@ func StartApp() {
 
 	r.POST("/categories", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.CreateCategory)
 	r.GET("/categories", authService.Authentication(), categoryHandler.GetAllCategories)
+	r.PUT("/categories/:categoryID", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.UpdateCategory)
 
 	log.Fatalln(r.Run(":" + PORT))
 }
