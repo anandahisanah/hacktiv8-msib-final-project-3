@@ -28,3 +28,17 @@ type GetAllCategoriesResponse struct {
 	CreatedAt time.Time  `json:"created_at"`
 	Tasks     []TaskData `json:"tasks"`
 }
+
+type UpdateCategoryRequest CreateCategoryRequest
+
+func (c *UpdateCategoryRequest) ToEntity() *entity.Category {
+	return &entity.Category{
+		Type: c.Type,
+	}
+}
+
+type UpdateCategoryResponse struct {
+	ID        uint      `json:"id"`
+	Type      string    `json:"type"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
