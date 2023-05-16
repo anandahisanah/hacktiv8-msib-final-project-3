@@ -34,3 +34,13 @@ func (c *CategoryHandler) CreateCategory(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, createdCategory)
 }
+
+func (c *CategoryHandler) GetAllCategories(ctx *gin.Context) {
+	categories, err := c.categoryService.GetAllCategories()
+	if err != nil {
+		ctx.JSON(err.StatusCode(), err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, categories)
+}
