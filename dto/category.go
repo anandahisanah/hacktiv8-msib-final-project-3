@@ -20,3 +20,11 @@ type CreateCategoryResponse struct {
 	Type      string    `json:"type"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+type GetAllCategoriesResponse struct {
+	ID        uint       `json:"id"`
+	Type      string     `json:"type"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	CreatedAt time.Time  `json:"created_at"`
+	Tasks     []TaskData `json:"tasks"`
+}

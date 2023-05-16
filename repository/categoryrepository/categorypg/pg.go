@@ -24,3 +24,13 @@ func (c *categoryPG) CreateCategory(category *entity.Category) (*entity.Category
 
 	return category, nil
 }
+
+func (c *categoryPG) GetAllCategories() ([]entity.Category, errs.MessageErr) {
+	var categories []entity.Category
+
+	if err := c.db.Find(&categories).Error; err != nil {
+		return nil, errs.NewInternalServerError("Failed to get all categories")
+	}
+
+	return categories, nil
+}

@@ -7,4 +7,5 @@ import (
 
 type CategoryRepository interface {
 	CreateCategory(category *entity.Category) (*entity.Category, errs.MessageErr)
+	GetAllCategories() ([]entity.Category, errs.MessageErr)
 }

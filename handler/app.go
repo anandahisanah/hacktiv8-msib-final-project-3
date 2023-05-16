@@ -38,6 +38,7 @@ func StartApp() {
 	r.DELETE("/users/delete-account", authService.Authentication(), userHandler.DeleteUser)
 
 	r.POST("/categories", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.CreateCategory)
+	r.GET("/categories", authService.Authentication(), categoryHandler.GetAllCategories)
 
 	log.Fatalln(r.Run(":" + PORT))
 }
