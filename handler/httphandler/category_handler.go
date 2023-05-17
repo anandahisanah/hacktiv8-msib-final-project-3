@@ -70,3 +70,21 @@ func (c *CategoryHandler) UpdateCategory(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedCategory)
 }
+
+func (c *CategoryHandler) DeleteCategory(ctx *gin.Context) {
+	categoryID := ctx.Param("categoryID")
+	categoryIDUint, err := strconv.ParseUint(categoryID, 10, 32)
+	if err != nil {
+		newError := errs.NewBadRequest("Category id should be in unsigned integer")
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	response, err2 := c.categoryService.DeleteCategory(uint(categoryIDUint))
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}

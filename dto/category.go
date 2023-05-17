@@ -42,3 +42,7 @@ type UpdateCategoryResponse struct {
 	Type      string    `json:"type"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type DeleteCategoryResponse struct {
+	Message string `json:"message"`
+}
