@@ -20,6 +20,7 @@ type User struct {
 	Email    string `gorm:"unique;not null" binding:"email,required"`
 	Password string `gorm:"not null" binding:"required,min=6"`
 	Role     string `gorm:"not null" binding:"required,oneof=admin member"`
+	Tasks    []Task `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 func (u *User) HashPassword() errs.MessageErr {
