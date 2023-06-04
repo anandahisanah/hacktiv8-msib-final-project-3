@@ -33,7 +33,7 @@ func init() {
 	db, err = gorm.Open(config.GetDBConfig())
 	errs.CheckErr(err)
 
-	errs.CheckErr(db.AutoMigrate(&entity.User{}, &entity.Category{}))
+	errs.CheckErr(db.AutoMigrate(&entity.User{}, &entity.Category{}, &entity.Task{}))
 
 	if db.Migrator().HasTable(&entity.User{}) {
 		if err := db.First(&entity.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
