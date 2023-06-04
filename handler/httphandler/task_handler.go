@@ -80,7 +80,6 @@ func (t *TaskHandler) UpdateTask(ctx *gin.Context) {
 }
 
 func (t *TaskHandler) UpdateTaskStatus(ctx *gin.Context) {
-
 	taskID := ctx.Param("taskID")
 	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
 	if err != nil {
@@ -106,7 +105,6 @@ func (t *TaskHandler) UpdateTaskStatus(ctx *gin.Context) {
 }
 
 func (t *TaskHandler) UpdateTaskCategory(ctx *gin.Context) {
-
 	taskID := ctx.Param("taskID")
 	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
 	if err != nil {
