@@ -1,13 +1,14 @@
 package httphandler
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+
 	"hacktiv8-msib-final-project-3/dto"
 	"hacktiv8-msib-final-project-3/entity"
 	"hacktiv8-msib-final-project-3/pkg/errs"
 	"hacktiv8-msib-final-project-3/service"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {

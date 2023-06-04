@@ -1,15 +1,16 @@
 package entity
 
 import (
-	"hacktiv8-msib-final-project-3/pkg/errs"
 	"log"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
+	jwt "github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+
+	"hacktiv8-msib-final-project-3/pkg/errs"
 )
 
 var jwtSecret = os.Getenv("JWT_SECRET")

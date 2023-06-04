@@ -1,14 +1,15 @@
 package httphandler
 
 import (
-	"hacktiv8-msib-final-project-3/dto"
-	"hacktiv8-msib-final-project-3/entity"
-	"hacktiv8-msib-final-project-3/pkg/errs"
-	"hacktiv8-msib-final-project-3/service"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+
+	"hacktiv8-msib-final-project-3/dto"
+	"hacktiv8-msib-final-project-3/entity"
+	"hacktiv8-msib-final-project-3/pkg/errs"
+	"hacktiv8-msib-final-project-3/service"
 )
 
 type TaskHandler struct {
@@ -79,7 +80,6 @@ func (t *TaskHandler) UpdateTask(ctx *gin.Context) {
 }
 
 func (t *TaskHandler) UpdateTaskStatus(ctx *gin.Context) {
-
 	taskID := ctx.Param("taskID")
 	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
 	if err != nil {
@@ -105,7 +105,6 @@ func (t *TaskHandler) UpdateTaskStatus(ctx *gin.Context) {
 }
 
 func (t *TaskHandler) UpdateTaskCategory(ctx *gin.Context) {
-
 	taskID := ctx.Param("taskID")
 	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
 	if err != nil {

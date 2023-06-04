@@ -2,12 +2,13 @@ package database
 
 import (
 	"errors"
-	"hacktiv8-msib-final-project-3/config"
-	"hacktiv8-msib-final-project-3/entity"
-	"hacktiv8-msib-final-project-3/pkg/errs"
 	"log"
 
 	"gorm.io/gorm"
+
+	"hacktiv8-msib-final-project-3/config"
+	"hacktiv8-msib-final-project-3/entity"
+	"hacktiv8-msib-final-project-3/pkg/errs"
 )
 
 var (
