@@ -1,16 +1,17 @@
 package handler
 
 import (
+	"log"
+	"os"
+
+	"github.com/gin-gonic/gin"
+
 	"hacktiv8-msib-final-project-3/database"
 	"hacktiv8-msib-final-project-3/handler/httphandler"
 	"hacktiv8-msib-final-project-3/repository/categoryrepository/categorypg"
 	"hacktiv8-msib-final-project-3/repository/taskrepository/taskpg"
 	"hacktiv8-msib-final-project-3/repository/userrepository/userpg"
 	"hacktiv8-msib-final-project-3/service"
-	"log"
-	"os"
-
-	"github.com/gin-gonic/gin"
 )
 
 var PORT = os.Getenv("PORT")

@@ -2,12 +2,13 @@ package categorypg
 
 import (
 	"fmt"
-	"hacktiv8-msib-final-project-3/entity"
-	"hacktiv8-msib-final-project-3/pkg/errs"
-	"hacktiv8-msib-final-project-3/repository/categoryrepository"
 	"log"
 
 	"gorm.io/gorm"
+
+	"hacktiv8-msib-final-project-3/entity"
+	"hacktiv8-msib-final-project-3/pkg/errs"
+	"hacktiv8-msib-final-project-3/repository/categoryrepository"
 )
 
 type categoryPG struct {
