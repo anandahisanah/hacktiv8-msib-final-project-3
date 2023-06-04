@@ -35,7 +35,7 @@ func StartApp() {
 	taskService := service.NewTaskService(taskRepo, categoryRepo, userRepo)
 	taskHandler := httphandler.NewTaskHandler(taskService)
 
-	authService := service.NewAuthService(userRepo)
+	authService := service.NewAuthService(userRepo, taskRepo)
 
 	r.POST("/users/register", userHandler.Register)
 	r.POST("/users/login", userHandler.Login)
@@ -49,6 +49,10 @@ func StartApp() {
 
 	r.POST("/tasks", authService.Authentication(), taskHandler.CreateTask)
 	r.GET("/tasks", authService.Authentication(), taskHandler.GetAllTasks)
+	r.PUT("/tasks/:taskID", authService.Authentication(), authService.TaskAuthorization(), taskHandler.UpdateTask)
+	r.PATCH("/tasks/update-status/:taskID", authService.Authentication(), authService.TaskAuthorization(), taskHandler.UpdateTaskStatus)
+	r.PATCH("/tasks/update-category/:taskID", authService.Authentication(), authService.TaskAuthorization(), taskHandler.UpdateTaskCategory)
+	r.DELETE("/tasks/:taskID", authService.Authentication(), authService.TaskAuthorization(), taskHandler.DeleteTask)
 
 	log.Fatalln(r.Run(":" + PORT))
 }

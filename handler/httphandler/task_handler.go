@@ -6,6 +6,7 @@ import (
 	"hacktiv8-msib-final-project-3/pkg/errs"
 	"hacktiv8-msib-final-project-3/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -50,4 +51,99 @@ func (t *TaskHandler) GetAllTasks(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, tasks)
+}
+
+func (t *TaskHandler) UpdateTask(ctx *gin.Context) {
+	taskID := ctx.Param("taskID")
+	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
+	if err != nil {
+		errValidation := errs.NewBadRequest("Task id should be in unsigned integer")
+		ctx.JSON(errValidation.StatusCode(), errValidation)
+		return
+	}
+
+	var reqBody dto.UpdateTaskRequest
+	if err := ctx.ShouldBindJSON(&reqBody); err != nil {
+		errValidation := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(errValidation.StatusCode(), errValidation)
+		return
+	}
+
+	updatedTask, errUpdate := t.taskService.UpdateTask(uint(taskIDUint), &reqBody)
+	if errUpdate != nil {
+		ctx.JSON(errUpdate.StatusCode(), errUpdate)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedTask)
+}
+
+func (t *TaskHandler) UpdateTaskStatus(ctx *gin.Context) {
+
+	taskID := ctx.Param("taskID")
+	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
+	if err != nil {
+		errValidation := errs.NewBadRequest("Task id should be in unsigned integer")
+		ctx.JSON(errValidation.StatusCode(), errValidation)
+		return
+	}
+
+	var reqBody dto.UpdateTaskStatusRequest
+	if err := ctx.ShouldBindJSON(&reqBody); err != nil {
+		validationError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	response, errUpdate := t.taskService.UpdateTaskStatus(uint(taskIDUint), &reqBody)
+	if errUpdate != nil {
+		ctx.JSON(errUpdate.StatusCode(), err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (t *TaskHandler) UpdateTaskCategory(ctx *gin.Context) {
+
+	taskID := ctx.Param("taskID")
+	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
+	if err != nil {
+		errValidation := errs.NewBadRequest("Task id should be in unsigned integer")
+		ctx.JSON(errValidation.StatusCode(), errValidation)
+		return
+	}
+
+	var reqBody dto.UpdateTaskCategoryRequest
+	if err := ctx.ShouldBindJSON(&reqBody); err != nil {
+		validationError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	updatedCategory, errUpdate := t.taskService.UpdateTaskCategory(uint(taskIDUint), &reqBody)
+	if errUpdate != nil {
+		ctx.JSON(errUpdate.StatusCode(), err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedCategory)
+}
+
+func (t *TaskHandler) DeleteTask(ctx *gin.Context) {
+	taskID := ctx.Param("taskID")
+	taskIDUint, err := strconv.ParseUint(taskID, 10, 32)
+	if err != nil {
+		newError := errs.NewBadRequest("Task id should be in unsigned integer")
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	response, err2 := t.taskService.DeleteTask(uint(taskIDUint))
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
