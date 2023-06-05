@@ -38,6 +38,18 @@ func (t *taskPG) GetAllTasks() ([]entity.Task, errs.MessageErr) {
 	return tasks, nil
 }
 
+func (t *taskPG) GetAllTasksByCategoryID(categoryID uint) (
+	[]entity.Task, errs.MessageErr,
+) {
+	var tasks []entity.Task
+	if err := t.db.Find(&tasks, "category_id = ?", categoryID).Error; err != nil {
+		log.Println("Error:", err.Error())
+		return nil, errs.NewInternalServerError("Failed to geet all task")
+	}
+
+	return tasks, nil
+}
+
 func (t *taskPG) GetTaskByID(id uint) (*entity.Task, errs.MessageErr) {
 	var task entity.Task
 

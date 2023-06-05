@@ -29,11 +29,12 @@ func StartApp() {
 	userHandler := httphandler.NewUserHandler(userService)
 
 	categoryRepo := categorypg.NewCategoryPG(db)
-	categoryService := service.NewCategoryService(categoryRepo)
-	categoryHandler := httphandler.NewCategoryHandler(categoryService)
-
 	taskRepo := taskpg.NewTaskPG(db)
+
+	categoryService := service.NewCategoryService(categoryRepo, taskRepo)
 	taskService := service.NewTaskService(taskRepo, categoryRepo, userRepo)
+
+	categoryHandler := httphandler.NewCategoryHandler(categoryService)
 	taskHandler := httphandler.NewTaskHandler(taskService)
 
 	authService := service.NewAuthService(userRepo, taskRepo)

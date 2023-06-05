@@ -4,21 +4,35 @@ import (
 	"hacktiv8-msib-final-project-3/dto"
 	"hacktiv8-msib-final-project-3/pkg/errs"
 	"hacktiv8-msib-final-project-3/repository/categoryrepository"
+	"hacktiv8-msib-final-project-3/repository/taskrepository"
 )
 
 type CategoryService interface {
-	CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr)
+	CreateCategory(payload *dto.CreateCategoryRequest) (
+		*dto.CreateCategoryResponse,
+		errs.MessageErr,
+	)
+
 	GetAllCategories() ([]dto.GetAllCategoriesResponse, errs.MessageErr)
-	UpdateCategory(id uint, payload *dto.UpdateCategoryRequest) (*dto.UpdateCategoryResponse, errs.MessageErr)
+
+	UpdateCategory(id uint, payload *dto.UpdateCategoryRequest) (
+		*dto.UpdateCategoryResponse,
+		errs.MessageErr,
+	)
+
 	DeleteCategory(id uint) (*dto.DeleteCategoryResponse, errs.MessageErr)
 }
 
 type categoryService struct {
 	categoryRepo categoryrepository.CategoryRepository
+	taskRepo     taskrepository.TaskRepository
 }
 
-func NewCategoryService(categoryRepo categoryrepository.CategoryRepository) CategoryService {
-	return &categoryService{categoryRepo}
+func NewCategoryService(
+	categoryRepo categoryrepository.CategoryRepository,
+	taskRepo taskrepository.TaskRepository,
+) CategoryService {
+	return &categoryService{categoryRepo, taskRepo}
 }
 
 func (c *categoryService) CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr) {
@@ -46,11 +60,30 @@ func (c *categoryService) GetAllCategories() ([]dto.GetAllCategoriesResponse, er
 
 	response := []dto.GetAllCategoriesResponse{}
 	for _, category := range categories {
+		tasks, err := c.taskRepo.GetAllTasksByCategoryID(category.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		tasksResponse := []dto.TaskData{}
+		for _, task := range tasks {
+			tasksResponse = append(tasksResponse, dto.TaskData{
+				ID:          task.ID,
+				Title:       task.Title,
+				Description: task.Description,
+				UserID:      task.UserID,
+				CategoryID:  task.CategoryID,
+				CreatedAt:   task.CreatedAt,
+				UpdatedAt:   task.UpdatedAt,
+			})
+		}
+
 		response = append(response, dto.GetAllCategoriesResponse{
 			ID:        category.ID,
 			Type:      category.Type,
 			UpdatedAt: category.UpdatedAt,
 			CreatedAt: category.CreatedAt,
+			Tasks:     tasksResponse,
 		})
 	}
 
