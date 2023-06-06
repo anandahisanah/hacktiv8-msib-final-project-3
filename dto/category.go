@@ -27,7 +27,7 @@ type GetAllCategoriesResponse struct {
 	Type      string     `json:"type"`
 	UpdatedAt time.Time  `json:"updated_at"`
 	CreatedAt time.Time  `json:"created_at"`
-	Tasks     []TaskData `json:"tasks"`
+	Tasks     []TaskData `json:"Tasks"`
 }
 
 type UpdateCategoryRequest CreateCategoryRequest
