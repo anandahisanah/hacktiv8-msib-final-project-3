@@ -11,7 +11,7 @@ type TaskData struct {
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	UserID      uint      `json:"user_id"`
-	CategoryID  uint      `json:"category_Id"`
+	CategoryID  uint      `json:"category_id"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
@@ -48,7 +48,7 @@ type GetAllTasksResponse struct {
 	UserID      uint      `json:"user_id"`
 	CategoryID  uint      `json:"category_id"`
 	CreatedAt   time.Time `json:"created_at"`
-	User        UserData  `json:"User"`
+	User        UserData  `json:"user"`
 }
 
 type UpdateTaskRequest struct {
