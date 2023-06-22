@@ -67,7 +67,7 @@ func (t *taskService) GetAllTasks() ([]dto.GetAllTasksResponse, errs.MessageErr)
 			return nil, err
 		}
 		response = append(response, dto.GetAllTasksResponse{
-			ID:          task.CategoryID,
+			ID:          task.ID,
 			Title:       task.Title,
 			Status:      task.Status,
 			Description: task.Description,
