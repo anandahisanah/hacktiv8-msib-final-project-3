@@ -1,4 +1,4 @@
-# MyGram - Final Project 2
+# Kanban Board - Final Project 3
 
 ## Anggota
 
